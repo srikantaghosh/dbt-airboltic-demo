@@ -1,0 +1,45 @@
+version: 2
+
+# Define a source
+sources:
+  - name: dbt_db
+    schema: prod
+    tables:
+      - name: customers
+      - name: customer_group
+      - name: aeroplane
+      - name: trip
+      - name: order_raw
+      - name: aeroplane_model_raw
+     
+
+# Define models
+models:
+  - name: stg_customers
+    description: "Staging model for customers data"
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+
+  - name: int_trips_summary
+    description: "This ensures we track all new and modified trips while linking aeroplanes to their models"
+    columns:
+      - name: trip_id
+        description: "Unique identifier for each trip"
+        tests:
+          - unique
+          - not_null
+
+      - name: start_timestamp
+        description: "Start time of the trip"
+        tests:
+          - not_null
+
+      - name: end_timestamp
+        description: "End time of the trip"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "end_timestamp > start_timestamp"
