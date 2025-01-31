@@ -1,0 +1,56 @@
+-- Customers Table
+CREATE OR REPLACE TABLE customers (
+    customer_id STRING PRIMARY KEY,
+    name STRING,
+    customer_group_id STRING,
+    email STRING,
+    phone_number STRING
+);
+
+-- Customer Groups Table
+CREATE OR REPLACE TABLE customer_groups (
+    customer_group_id STRING PRIMARY KEY,
+    customer_group_type STRING,
+    customer_group_name STRING,
+    registry_number STRING
+);
+
+-- Aeroplanes Table
+CREATE OR REPLACE TABLE aeroplanes (
+    airplane_id STRING PRIMARY KEY,
+    airplane_model STRING,
+    manufacturer STRING
+);
+
+-- Aeroplane Models Table
+CREATE OR REPLACE TABLE aeroplane_models (
+    manufacturer STRING,
+    model STRING PRIMARY KEY,
+    max_seats INT,
+    max_weight INT,
+    max_distance INT,
+    engine_type STRING
+);
+
+-- Trips Table
+CREATE OR REPLACE TABLE trips (
+    trip_id STRING PRIMARY KEY,
+    origin_city STRING,
+    destination_city STRING,
+    airplane_id STRING,
+    start_timestamp TIMESTAMP,
+    end_timestamp TIMESTAMP,
+    FOREIGN KEY (airplane_id) REFERENCES aeroplanes(airplane_id)
+);
+
+-- Orders Table
+CREATE OR REPLACE TABLE orders (
+    order_id STRING PRIMARY KEY,
+    customer_id STRING,
+    trip_id STRING,
+    price_eur FLOAT,
+    seat_no STRING,
+    status STRING,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
+    FOREIGN KEY (trip_id) REFERENCES trips(trip_id)
+);
