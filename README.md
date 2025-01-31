@@ -17,5 +17,5 @@ He There,
 	•	Creating tables for customers, orders, trips, and more
 	•	Populating tables using staged files from S3
 
-2. dbt Project Demo- Go to dbtdemo folder
+2. dbt Project Demo- Go to airboltic/dbtdemo
 
